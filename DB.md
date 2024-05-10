@@ -93,7 +93,6 @@ erDiagram
   }
 
   Entry {
-    uuid id PK
     uuid userid "対象ユーザID"
     uuid nomikuiid "対象nomikuiID"
     bool represent "募集者か"
@@ -112,7 +111,6 @@ erDiagram
   }
 
   Tags {
-    uuid id PK
     uuid restaurant "店ID"
     string content "タグ名"
   }
@@ -131,3 +129,81 @@ erDiagram
   }
 
 ```
+
+## second:第二正規化
+
+- エリア,ジャンル番号の実装
+
+```mermaid
+---
+title: nomikui-second
+---
+erDiagram
+
+  Nomikui {
+    uuid id PK
+    uuid restaurant "店ID"
+    uuid organizer "主催者"
+    int perticipant_num "参加人数"
+    timestamp conducted_at "開催日時"
+    bool isopen "募集中か"
+    string picture "関連画像"
+    string comment "備考"
+  }
+
+  Entry {
+    uuid userid "対象ユーザID"
+    uuid nomikuiid "対象nomikuiID"
+    bool represent "募集者か"
+    timestamp created_at "応募日時"
+  }
+
+  Restaurant {
+    uuid id PK
+    string name "店名"
+    uuid areaid "エリアid"
+    uuid genreid "ジャンルid"
+    int perticipantnum "参加人数"
+    timestamp conducted_at "開催日時"
+    string picture "関連画像"
+    string comment "備考"
+  }
+
+  Area {
+    uuid id "エリアid"
+    strinf areaname "エリア名"
+  }
+
+  Genre {
+    uuid id "ジャンルid"
+    strinf areaname "ジャンル名"
+  }
+
+  Tags {
+    uuid restaurant "店ID"
+    string content "タグ名"
+  }
+
+  User {
+    uuid id PK
+    string name "ユーザ名"
+    string traQid "認証済traQid"
+    int userexp "ユーザexp"
+  }
+
+  Favorite {
+    uuid userid "ユーザID"
+    uuid restaurantid "店ID"
+    timestamp conducted_at "開催日時"
+  }
+
+```
+
+## third:第三正規化
+
+<!-- ```mermaid
+---
+title:nomikui-second
+---
+
+``` -->

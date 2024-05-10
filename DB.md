@@ -5,16 +5,6 @@
     - 店
     - 主催者
     - 参加者
-    - 参加人数
-    - 開催日時
-    - 関連画像
-    - 備考
-
-- nomikui予約/待機キュー
-    - ID
-    - 店
-    - 主催者
-    - 参加者
     - 希望人数
     - 開催日時
     - 締切日時
@@ -45,22 +35,13 @@
 title: nomikui-draft
 ---
 erDiagram
-  Nomikui {
-    bigint id PK
-    string name "店名"
-    bigint organizer "主催者"
-    bigint perticipant "参加者"
-    int perticipantnum "参加人数"
-    timestamp conducted_at "開催日時"
-    string picture "関連画像"
-    string comment "備考"
-  }
 
-  NomikuiQuewe {
-    bigint id PK
+  Nomikui {
+    uuid id PK
     string name "店名"
-    bigint organizer "主催者"
-    bigint perticipant "参加者"
+    string area "エリア"
+    string[] tags"タグ"
+    string genre "ジャンル"
     int perticipantnum "参加人数"
     timestamp conducted_at "開催日時"
     string picture "関連画像"
@@ -68,20 +49,24 @@ erDiagram
   }
 
   Restaurant {
-    bigint id PK
+    uuid id PK
     string name "店名"
-    bigint organizer "主催者"
-    bigint perticipant "参加者"
-    int perticipantnum "参加人数"
+    uuid organizer "主催者"
+    uuid[] perticipant "参加者"
+    int perticipant_num "参加人数"
     timestamp conducted_at "開催日時"
     string picture "関連画像"
     string comment "備考"
   }
 
   User {
-    bigint id PK
+    uuid id PK
     string name "ユーザ名"
-    string traQid "関連traQid"
+    string traQid "認証済traQid"
+    uuid[] open_nomikui "nomikui募集"
+    uuid[] taken_nomikui "nomikui参加"
+    uuid[] favorite "お気に入り店"
+    int userexp "ユーザexp"
   
   }
 ```

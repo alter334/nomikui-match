@@ -281,8 +281,15 @@ erDiagram
 
   Nomikui ||--o{ Entry : ""
   Nomikui ||--|| Restaurant : ""
+  Nomikui ||--|| User : ""
+
   Restaurant ||--|| Area : ""
   Restaurant ||--|| Genre : ""
+  Restaurant ||--o{ Tags : ""
+  Restaurant ||--o{ Favorite :""
+
+  User ||--o{ Favorite : ""
+  User ||--o{ Entry : ""
 
   Nomikui {
     uuid id PK
@@ -314,6 +321,12 @@ erDiagram
     string comment "備考"
   }
 
+  User {
+    uuid id PK
+    string name "ユーザ名"
+    string traQid "認証済traQid"
+  }
+
   Area {
     uuid id PK
     strinf areaname "エリア名"
@@ -328,13 +341,6 @@ erDiagram
     uuid id PK
     uuid restaurant FK "店ID"
     string content "タグ名"
-  }
-
-  User {
-    uuid id PK
-    string name "ユーザ名"
-    string traQid "認証済traQid"
-    int userexp "ユーザexp"
   }
 
   Favorite {

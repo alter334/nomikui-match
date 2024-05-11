@@ -21,9 +21,8 @@ erDiagram
 
   Nomikui {
     uuid id PK
-    uuid restaurant FK "店ID"
-    uuid organizer FK "主催者"
-    int perticipant_num "参加人数"
+    uuid restaurantid FK "店ID"
+    uuid organizerid FK "主催者"
     timestamp conducted_at "開催日時"
     bool isopen "募集中か"
     string picture "関連画像"
@@ -33,7 +32,6 @@ erDiagram
   Entry {
     uuid userid PK "対象ユーザID"
     uuid nomikuiid PK "対象nomikuiID"
-    bool represent "募集者か"
     bool present "出席するかしないか"
     timestamp created_at "応募日時"
   }
@@ -43,7 +41,6 @@ erDiagram
     string name "店名"
     uuid areaid FK "エリアid"
     uuid genreid FK "ジャンルid"
-    int perticipantnum "参加人数"
     timestamp conducted_at "開催日時"
     string picture "関連画像"
     string comment "備考"
@@ -57,17 +54,17 @@ erDiagram
 
   Area {
     uuid id PK
-    strinf areaname "エリア名"
+    string areaname "エリア名"
   }
 
   Genre {
     uuid id PK 
-    strinf areaname "ジャンル名"
+    string genrename "ジャンル名"
   }
 
   Tags {
     uuid id PK
-    uuid restaurant FK "店ID"
+    uuid restaurantid FK "店ID"
     string content "タグ名"
   }
 

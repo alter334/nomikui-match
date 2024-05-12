@@ -1,9 +1,10 @@
 version: "3.9"
+name: "nomikui"
 
 services:
   mysql:
     image: mysql:lts
-    container_name: mysql-container
+    container_name: nomikuidb
     ports:
       - "3306:3306"
     environment:

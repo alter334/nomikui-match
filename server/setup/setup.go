@@ -9,28 +9,67 @@ import (
 	"github.com/jmoiron/sqlx"
 )
 
-func DBsetup() *sqlx.DB{
-	
-	log.Println(time.Now(),":::Start DBsetup")
+func DBsetup() *sqlx.DB {
 
-	NS := os.Getenv("NS")
-	var user, pass, addr, dbname string
+	log.Println(":::Start DBsetup:::")
 
-	if NS == "false" {
-		user = os.Getenv("NS_MARIADB_USER")
-		pass = os.Getenv("NS_MARIADB_PASSWORD")
-		addr = os.Getenv("NS_MARIADB_HOSTNAME") + ":" + os.Getenv("NS_MARIADB_PORT")
-		dbname = os.Getenv("NS_MARIADB_DATABASE")
+	NS, def := os.LookupEnv("NS")
+
+	if !def {
+		NS = "false"
+	}
+	var user, pass, addr, host, port, dbname string
+
+	if NS == "true" {
+		user, def = os.LookupEnv("NS_MARIADB_USER")
+		if !def {
+			user = "root"
+		}
+		pass, def = os.LookupEnv("NS_MARIADB_PASSWORD")
+		if !def {
+			pass = "root"
+		}
+		host, def = os.LookupEnv("NS_MARIADB_HOSTNAME")
+		if !def {
+			host = "localhost"
+		}
+		port, def = os.LookupEnv("NS_MARIADB_PORT")
+		if !def {
+			port = "3306"
+		}
+		addr = host + ":" + port
+		dbname, def = os.LookupEnv("NS_MARIADB_DATABASE")
+		if !def {
+			dbname = "nomikui"
+		}
 	} else {
-		user = os.Getenv("LOCAL_MYSQL_USER")
-		pass = os.Getenv("LOCAL_MYSQL_PASSWORD")
-		addr = os.Getenv("LOCAL_MYSQL_HOSTNAME") + ":" + os.Getenv("LOCAL_MYSQL_PORT")
-		dbname = os.Getenv("LOCAL_MYSQL_DATABASE")
+		user, def = os.LookupEnv("LOCAL_MYSQL_USER")
+		if !def {
+			user = "root"
+		}
+		pass, def = os.LookupEnv("LOCAL_MYSQL_PASSWORD")
+		if !def {
+			pass = "root"
+		}
+		host, def = os.LookupEnv("LOCAL_MYSQL_HOSTNAME")
+		if !def {
+			host = "localhost"
+		}
+		port, def = os.LookupEnv("LOCAL_MYSQL_PORT")
+		if !def {
+			port = "3306"
+		}
+		addr = host + ":" + port
+
+		dbname, def = os.LookupEnv("LOCAL_MYSQL_DATABASE")
+		if !def {
+			dbname = "nomikui"
+		}
 	}
 
 	jst, err := time.LoadLocation("Asia/Tokyo")
 	if err != nil {
-		log.Fatal("ERROR_DBsetup:",err)
+		log.Fatal("ERROR_DBsetup:", err)
 	}
 
 	conf := mysql.Config{
@@ -46,10 +85,15 @@ func DBsetup() *sqlx.DB{
 	}
 
 	_db, err := sqlx.Open("mysql", conf.FormatDSN())
-	if err!=nil{
-		log.Fatal("ERROR_DBsetup:",err)
+
+	if err != nil {
+		log.Fatal("ERROR_DBsetup:", err)
 	}
-	log.Println(time.Now(),":::Complete DBsetup")
+	err = _db.Ping()
+	if err != nil {
+		log.Fatal("ERROR:", err)
+	}
+	log.Println(":::Complete DBsetup:::")
 
 	return _db
 

@@ -1,8 +1,12 @@
 package main
 
-import "fmt"
+import (
+	"log"
+	"nomikuimatch/setup"
+)
 
 func main() {
-	fmt.Println("Hello, world!")
+	_ = setup.DBsetup()
+	log.Println(":::Nomikui-backend Setuped:::")
 
 }

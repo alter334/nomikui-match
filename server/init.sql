@@ -27,5 +27,18 @@ CREATE TABLE
     id CHAR(36) PRIMARY KEY,
     name VARCHAR(255),
     areaid CHAR(36),
-    FOREIGN KEY (areaid) REFERENCES Area (id)
+    FOREIGN KEY (areaid) REFERENCES Area (id),
+    genreid CHAR(36),
+    FOREIGN KEY (genreid) REFERENCES Genre (id),
+    conducted_at DATETIME,
+    picture TEXT,
+    comment TEXT
+  );
+
+CREATE TABLE
+  Tags (
+    id CHAR(36) PRIMARY KEY,
+    restaurantid CHAR(36),
+    FOREIGN KEY (restaurantid) REFERENCES Restaurant (id),
+    content VARCHAR(255)
   );

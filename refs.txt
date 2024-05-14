@@ -1,0 +1,4 @@
+https://pointsandlines.jp/db-sql/mysql/composite-primary-key
+複合キーの設定
+https://qiita.com/nobi_tum/items/0dd1ce7407e720338ea8
+dockerでのMySQL初期化および永続化

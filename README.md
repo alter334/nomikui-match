@@ -33,7 +33,7 @@ erDiagram
     uuid userid PK "対象ユーザID"
     uuid nomikuiid PK "対象nomikuiID"
     bool present "出席するかしないか"
-    timestamp created_at "応募日時"
+    timestamp entried_at "応募日時"
   }
 
   Restaurant {
@@ -41,7 +41,7 @@ erDiagram
     string name "店名"
     uuid areaid FK "エリアid"
     uuid genreid FK "ジャンルid"
-    timestamp conducted_at "開催日時"
+    timestamp registered_at "登録日時"
     string picture "関連画像"
     string comment "備考"
   }

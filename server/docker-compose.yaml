@@ -13,6 +13,8 @@ services:
       TZ: "Asia/Tokyo"
     volumes:
       - ./my.cnf:/etc/mysql/conf.d/my.cnf
+      - ./data:/var/lib/mysql # 永続化
+      - ./init:/docker-entrypoint-initdb.d # 初期データ
 
   adminer:
     image: adminer:latest

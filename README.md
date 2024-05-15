@@ -25,8 +25,8 @@ erDiagram
     uuid organizerid FK "主催者"
     timestamp conducted_at "開催日時"
     bool isopen "募集中か"
-    string picture "関連画像"
-    string comment "備考"
+    stringNULL picture "関連画像"
+    stringNULL comment "備考"
   }
 
   Entry {
@@ -42,8 +42,8 @@ erDiagram
     uuid areaid FK "エリアid"
     uuid genreid FK "ジャンルid"
     timestamp registered_at "登録日時"
-    string picture "関連画像"
-    string comment "備考"
+    stringNULL picture "関連画像"
+    stringNULL comment "備考"
   }
 
   User {

@@ -21,14 +21,105 @@ paths:
               schema:
                 type: array
                 items:
-                  type: object
-                  properties:
-                    id:
-                      type: string
-                      format: uuid
-                    name:
-                      type: string
-                      example: "alter"
-                    traQid:
-                      type: string
-                      format: uuid
+                  $ref: "#/components/schemas/User"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      summary: 新規ユーザ登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Create a new user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+
+  /users/{userid}:
+    get:
+      summary: 指定ユーザの取得
+      responses:
+        "200":
+          description: User object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such user is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      summary: 指定ユーザ情報編集
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such user is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      summary: 指定ユーザ削除
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such user is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: "alter"
+        traQid:
+          type: string
+          format: uuid

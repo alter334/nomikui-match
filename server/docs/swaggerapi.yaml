@@ -49,10 +49,17 @@ paths:
           description: Internal server error
         default:
           description: Unexpected Error
-
   /users/{userid}:
     get:
       summary: 指定ユーザの取得
+      parameters:
+        - in: path
+          name: userid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiユーザid
       responses:
         "200":
           description: User object
@@ -70,6 +77,14 @@ paths:
           description: Unexpected Error
     patch:
       summary: 指定ユーザ情報編集
+      parameters:
+        - in: path
+          name: userid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiユーザid
       requestBody:
         required: true
         content:
@@ -93,6 +108,14 @@ paths:
           description: Unexpected Error
     delete:
       summary: 指定ユーザ削除
+      parameters:
+        - in: path
+          name: userid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiユーザid
       responses:
         "200":
           description: successfully deleted
@@ -104,6 +127,62 @@ paths:
           description: Not authorized
         "404":
           description: Such user is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+  /users/{userid}/favorite:
+    get:
+      summary: お気に入り店の取得
+      parameters:
+        - in: path
+          name: userid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiユーザid
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Restaurant"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such user is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      summary: お気に入りの削除
+      parameters:
+        - in: path
+          name: userid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiユーザid
+        - in: query
+          name: restaurantid
+          schema:
+            type: string
+            format: uuid
+          required: false
+          description: 消去対象の店名,省略の場合全消去
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Not authorized
+        "404":
+          description: Such user or restaurant  is not found
         "500":
           description: Internal server error
         default:
@@ -122,4 +201,29 @@ components:
           example: "alter"
         traQid:
           type: string
+          example: alt--er
+
+    Restaurant:
+      type: object
+      properties:
+        id:
+          type: string
           format: uuid
+        name:
+          type: string
+          example: "四川屋台"
+        areaid:
+          type: string
+          format: uuid
+        genreid:
+          type: string
+          format: uuid
+        registered_at:
+          type: string
+          format: date-time
+        picture:
+          type: string
+          format: uri
+        comment:
+          type: string
+          example: "麻婆豆腐の美味しいドカ食い向けの店"

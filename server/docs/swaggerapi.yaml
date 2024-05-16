@@ -159,6 +159,34 @@ paths:
           description: Internal server error
         default:
           description: Unexpected Error
+    post:
+      summary: お気に入りの追加
+      parameters:
+        - in: path
+          name: userid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiユーザid
+        - in: query
+          name: restaurantid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: 追加対象の店id
+      responses:
+        "200":
+          description: OK
+        "403":
+          description: Not authorized
+        "404":
+          description: Such user or restaurant  is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
     delete:
       summary: お気に入りの削除
       parameters:
@@ -187,6 +215,7 @@ paths:
           description: Internal server error
         default:
           description: Unexpected Error
+
 
 components:
   schemas:

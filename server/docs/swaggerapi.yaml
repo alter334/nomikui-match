@@ -12,6 +12,8 @@ servers:
 paths:
   /users:
     get:
+      tags:
+        - users
       summary: 全ユーザの取得
       responses:
         "200": # status code
@@ -29,6 +31,8 @@ paths:
         default:
           description: Unexpected Error
     post:
+      tags:
+        - users
       summary: 新規ユーザ登録
       requestBody:
         required: true
@@ -51,6 +55,8 @@ paths:
           description: Unexpected Error
   /users/{userid}:
     get:
+      tags:
+        - users
       summary: 指定ユーザの取得
       parameters:
         - in: path
@@ -76,6 +82,8 @@ paths:
         default:
           description: Unexpected Error
     patch:
+      tags:
+        - users
       summary: 指定ユーザ情報編集
       parameters:
         - in: path
@@ -107,6 +115,8 @@ paths:
         default:
           description: Unexpected Error
     delete:
+      tags:
+        - users
       summary: 指定ユーザ削除
       parameters:
         - in: path
@@ -133,6 +143,8 @@ paths:
           description: Unexpected Error
   /users/{userid}/favorite:
     get:
+      tags:
+        - users
       summary: お気に入り店の取得
       parameters:
         - in: path
@@ -160,6 +172,8 @@ paths:
         default:
           description: Unexpected Error
     post:
+      tags:
+        - users
       summary: お気に入りの追加
       parameters:
         - in: path
@@ -179,6 +193,11 @@ paths:
       responses:
         "200":
           description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+
         "403":
           description: Not authorized
         "404":
@@ -188,6 +207,8 @@ paths:
         default:
           description: Unexpected Error
     delete:
+      tags:
+        - users
       summary: お気に入りの削除
       parameters:
         - in: path
@@ -205,8 +226,8 @@ paths:
           required: false
           description: 消去対象の店名,省略の場合全消去
       responses:
-        "200":
-          description: OK
+        "204":
+          description: NoContent
         "403":
           description: Not authorized
         "404":
@@ -216,6 +237,138 @@ paths:
         default:
           description: Unexpected Error
 
+  /restaurants:
+    get:
+      tags:
+        - restaurant
+      summary: 全登録店の取得
+      responses:
+        "200": # status code
+          description: A JSON array of user objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Restaurant"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      tags:
+        - restaurant
+      summary: 新規店登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Create a new user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+
+  /restaurants/{restaurantid}:
+    get:
+      tags:
+        - restaurant
+      summary: 指定店の取得
+      parameters:
+        - in: path
+          name: restaurantid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikui店id
+      responses:
+        "200":
+          description: Restaurant object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such restaurant is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      tags:
+        - restaurant
+      summary: 指定店情報編集
+      parameters:
+        - in: path
+          name: restaurantid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikui店id
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Restaurant"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such restaurant is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      tags:
+        - restaurant
+      summary: 指定店削除
+      parameters:
+        - in: path
+          name: restaurantid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikui店id
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Restaurant"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such restaurant is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
 
 components:
   schemas:
@@ -231,7 +384,9 @@ components:
         traQid:
           type: string
           example: alt--er
-
+      required:
+        - id
+        - name
     Restaurant:
       type: object
       properties:
@@ -256,3 +411,19 @@ components:
         comment:
           type: string
           example: "麻婆豆腐の美味しいドカ食い向けの店"
+      required:
+        - id
+        - name
+        - areaid
+        - genreid
+        - registered_at
+
+    
+
+tags:
+  - name: users
+    description: ユーザ関連API
+  - name: restaurant
+    description: 店関連API
+  - name: nomikui
+    description: nomikui関連API

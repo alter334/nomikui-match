@@ -417,8 +417,35 @@ components:
         - areaid
         - genreid
         - registered_at
-
-    
+    Nomikui:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        restaurantid:
+          type: string
+          format: uuid
+        organizerid:
+          type: string
+          format: uuid
+        conducted_at:
+          type: string
+          format: date-time
+        isopen:
+          type: boolean
+        picture:
+          type: string
+          format: uri
+        comment:
+          type: string
+          example: "プロジェクトnomikui会"
+      required:
+        - id
+        - restaurantid
+        - organizerid
+        - conducted_at
+        - isopen
 
 tags:
   - name: users

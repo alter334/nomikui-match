@@ -370,6 +370,10 @@ paths:
         default:
           description: Unexpected Error
 
+  /nomikui:
+    get:
+      tags:
+      - nomikui
 components:
   schemas:
     User:

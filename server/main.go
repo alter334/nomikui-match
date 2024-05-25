@@ -8,5 +8,6 @@ import (
 func main() {
 	_ = setup.DBsetup()
 	log.Println(":::Nomikui-backend Setuped:::")
+	
 
 }

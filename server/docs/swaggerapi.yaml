@@ -244,7 +244,7 @@ paths:
       summary: 全登録店の取得
       responses:
         "200": # status code
-          description: A JSON array of user objects
+          description: A JSON array of restaurant objects
           content:
             application/json:
               schema:
@@ -266,21 +266,20 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/User"
+              $ref: "#/components/schemas/Restaurant"
       responses:
         "201":
-          description: Create a new user
+          description: Create a new restaurant
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/User"
+                $ref: "#/components/schemas/Restaurant"
         "403":
           description: Not authorized
         "500":
           description: Internal server error
         default:
           description: Unexpected Error
-
   /restaurants/{restaurantid}:
     get:
       tags:
@@ -374,6 +373,137 @@ paths:
     get:
       tags:
       - nomikui
+      summary: 全nomikuiの取得
+      responses:
+        "200": # status code
+          description: A JSON array of nomikui objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Nomikui"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      tags:
+        - nomikui
+      summary: 新規nomikui登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Nomikui"
+      responses:
+        "201":
+          description: Create a new nomikui
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Nomikui"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+  /nomikui/{nomikuiid}:
+    get:
+      tags:
+        - nomikui
+      summary: 指定nomikuiの取得
+      parameters:
+        - in: path
+          name: nomikuiid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiid
+      responses:
+        "200":
+          description: nomikui object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Nomikui"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such nomikui is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      tags:
+        - nomikui
+      summary: 指定nomikui情報編集
+      parameters:
+        - in: path
+          name: nomikuiid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Nomikui"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Nomikui"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such nomikui is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      tags:
+        - nomikui
+      summary: 指定nomikui削除
+      parameters:
+        - in: path
+          name: nomikuiid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: nomikuiid
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Nomikui"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such nomikui is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+
+
+
+
 components:
   schemas:
     User:
@@ -450,6 +580,47 @@ components:
         - organizerid
         - conducted_at
         - isopen
+    Tags:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        restaurantid:
+          type: string
+          format: uuid
+        content:
+          type: string
+          example: "タグ名"
+      required:
+        - id
+        - restaurantid
+        - content
+    Genre:  
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        genrename:
+          type: string
+          example: "ジャンル名"
+      required:
+        - id
+        - genrename
+    Area:  
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        genrename:
+          type: string
+          example: "ジャンル名"
+      required:
+        - id
+        - genrename
+
 
 tags:
   - name: users

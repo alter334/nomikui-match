@@ -372,7 +372,7 @@ paths:
   /nomikui:
     get:
       tags:
-      - nomikui
+        - nomikui
       summary: 全nomikuiの取得
       responses:
         "200": # status code
@@ -501,8 +501,533 @@ paths:
         default:
           description: Unexpected Error
 
+  /tags:
+    get:
+      tags:
+        - tags
+      summary: 全タグの取得
+      responses:
+        "200": # status code
+          description: A JSON array of tag objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tag"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      tags:
+        - tags
+      summary: 新規タグ登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        "201":
+          description: Create a new tag
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+  /tags/{tagid}:
+    get:
+      tags:
+        - tags
+      summary: 指定tagの取得
+      parameters:
+        - in: path
+          name: tagid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: tagid
+      responses:
+        "200":
+          description: tag object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such tag is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      tags:
+        - tags
+      summary: 指定tag情報編集
+      parameters:
+        - in: path
+          name: tagid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: tagid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Tag"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such tag is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      tags:
+        - tags
+      summary: 指定tag削除
+      parameters:
+        - in: path
+          name: tagid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: tagid
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tag"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such tag is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
 
+  /genres:
+    get:
+      tags:
+        - genres
+      summary: 全タグの取得
+      responses:
+        "200": # status code
+          description: A JSON array of genre objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Genre"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      tags:
+        - genres
+      summary: 新規タグ登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Genre"
+      responses:
+        "201":
+          description: Create a new genre
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Genre"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+  /genres/{genreid}:
+    get:
+      tags:
+        - genres
+      summary: 指定genreの取得
+      parameters:
+        - in: path
+          name: genreid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: genreid
+      responses:
+        "200":
+          description: genre object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Genre"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such genre is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      tags:
+        - genres
+      summary: 指定genre情報編集
+      parameters:
+        - in: path
+          name: genreid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: genreid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Genre"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Genre"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such genre is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      tags:
+        - genres
+      summary: 指定genre削除
+      parameters:
+        - in: path
+          name: genreid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: genreid
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Genre"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such genre is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
 
+  /areas:
+    get:
+      tags:
+        - areas
+      summary: 全タグの取得
+      responses:
+        "200": # status code
+          description: A JSON array of area objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Area"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      tags:
+        - areas
+      summary: 新規タグ登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Area"
+      responses:
+        "201":
+          description: Create a new area
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Area"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+  /areas/{areaid}:
+    get:
+      tags:
+        - areas
+      summary: 指定areaの取得
+      parameters:
+        - in: path
+          name: areaid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: areaid
+      responses:
+        "200":
+          description: area object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Area"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such area is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      tags:
+        - areas
+      summary: 指定area情報編集
+      parameters:
+        - in: path
+          name: areaid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: areaid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Area"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Area"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such area is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      tags:
+        - areas
+      summary: 指定area削除
+      parameters:
+        - in: path
+          name: areaid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: areaid
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Area"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such area is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+
+  /entries:
+    get:
+      tags:
+        - entries
+      summary: 全タグの取得
+      responses:
+        "200": # status code
+          description: A JSON array of entries objects
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Entry"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    post:
+      tags:
+        - entries
+      summary: 新規タグ登録
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Entry"
+      responses:
+        "201":
+          description: Create a new entrie
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Entry"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+  /entries/{entryid}:
+    get:
+      tags:
+        - entries
+      summary: 指定entrieの取得
+      parameters:
+        - in: path
+          name: entryid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: entryid
+      responses:
+        "200":
+          description: entrie object
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Entry"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such entrie is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    patch:
+      tags:
+        - entries
+      summary: 指定entrie情報編集
+      parameters:
+        - in: path
+          name: entryid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: entryid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Entry"
+      responses:
+        "200":
+          description: successfully updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Entry"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such entry is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+    delete:
+      tags:
+        - entries
+      summary: 指定entry削除
+      parameters:
+        - in: path
+          name: entryid
+          schema:
+            type: string
+            format: uuid
+          required: true
+          description: entryid
+      responses:
+        "200":
+          description: successfully deleted
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Entry"
+        "403":
+          description: Not authorized
+        "404":
+          description: Such entry is not found
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
 
 components:
   schemas:
@@ -580,7 +1105,7 @@ components:
         - organizerid
         - conducted_at
         - isopen
-    Tags:
+    Tag:
       type: object
       properties:
         id:
@@ -596,7 +1121,7 @@ components:
         - id
         - restaurantid
         - content
-    Genre:  
+    Genre:
       type: object
       properties:
         id:
@@ -608,7 +1133,7 @@ components:
       required:
         - id
         - genrename
-    Area:  
+    Area:
       type: object
       properties:
         id:
@@ -616,11 +1141,29 @@ components:
           format: uuid
         genrename:
           type: string
-          example: "ジャンル名"
+          example: "エリア名"
       required:
         - id
-        - genrename
-
+        - areaname
+    Entry:
+      type: object
+      properties:
+        userid:
+          type: string
+          format: uuid
+        nomikuiid:
+          type: string
+          format: uuid
+        ispresent:
+          type: boolean
+        entried_at:
+          type: string
+          format: date-time
+      required:
+        - userid
+        - nomikuiid
+        - ispresent
+        - entried_at
 
 tags:
   - name: users
@@ -629,3 +1172,11 @@ tags:
     description: 店関連API
   - name: nomikui
     description: nomikui関連API
+  - name: tags
+    description: タグ関連API
+  - name: genres
+    description: ジャンル関連API
+  - name: areas
+    description: エリア関連API
+  - name: entries
+    description: nomikuiエントリ関連API

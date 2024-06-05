@@ -32,7 +32,7 @@ erDiagram
   Entry {
     uuid userid PK "対象ユーザID"
     uuid nomikuiid PK "対象nomikuiID"
-    bool present "出席するかしないか"
+    bool ispresent "出席するかしないか"
     timestamp entried_at "応募日時"
   }
 

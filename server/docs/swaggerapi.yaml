@@ -224,10 +224,16 @@ paths:
             type: string
             format: uuid
           required: false
-          description: 消去対象の店名,省略の場合全消去
+          description: 消去対象の店id
       responses:
-        "204":
-          description: NoContent
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Restaurant"
         "403":
           description: Not authorized
         "404":

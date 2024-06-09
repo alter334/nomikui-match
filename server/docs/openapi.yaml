@@ -1035,6 +1035,24 @@ paths:
         default:
           description: Unexpected Error
 
+  /ping:
+    get:
+      summary: "pong"
+      responses:
+        "200":
+          description: successfully ping
+          content:
+            application/json:
+              schema:
+                type: string
+                example: "pong"
+        "403":
+          description: Not authorized
+        "500":
+          description: Internal server error
+        default:
+          description: Unexpected Error
+
 components:
   schemas:
     User:

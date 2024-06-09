@@ -282,6 +282,9 @@ type ClientInterface interface {
 
 	PatchNomikuiNomikuiid(ctx context.Context, nomikuiid openapi_types.UUID, body PatchNomikuiNomikuiidJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// GetPing request
+	GetPing(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// GetRestaurants request
 	GetRestaurants(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -675,6 +678,18 @@ func (c *Client) PatchNomikuiNomikuiidWithBody(ctx context.Context, nomikuiid op
 
 func (c *Client) PatchNomikuiNomikuiid(ctx context.Context, nomikuiid openapi_types.UUID, body PatchNomikuiNomikuiidJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewPatchNomikuiNomikuiidRequest(c.Server, nomikuiid, body)
+	if err != nil {
+		return nil, err
+	}
+	req = req.WithContext(ctx)
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) GetPing(ctx context.Context, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewGetPingRequest(c.Server)
 	if err != nil {
 		return nil, err
 	}
@@ -1701,6 +1716,33 @@ func NewPatchNomikuiNomikuiidRequestWithBody(server string, nomikuiid openapi_ty
 	return req, nil
 }
 
+// NewGetPingRequest generates requests for GetPing
+func NewGetPingRequest(server string) (*http.Request, error) {
+	var err error
+
+	serverURL, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	operationPath := fmt.Sprintf("/ping")
+	if operationPath[0] == '/' {
+		operationPath = "." + operationPath
+	}
+
+	queryURL, err := serverURL.Parse(operationPath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryURL.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
 // NewGetRestaurantsRequest generates requests for GetRestaurants
 func NewGetRestaurantsRequest(server string) (*http.Request, error) {
 	var err error
@@ -2508,6 +2550,9 @@ type ClientWithResponsesInterface interface {
 
 	PatchNomikuiNomikuiidWithResponse(ctx context.Context, nomikuiid openapi_types.UUID, body PatchNomikuiNomikuiidJSONRequestBody, reqEditors ...RequestEditorFn) (*PatchNomikuiNomikuiidResponse, error)
 
+	// GetPingWithResponse request
+	GetPingWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPingResponse, error)
+
 	// GetRestaurantsWithResponse request
 	GetRestaurantsWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetRestaurantsResponse, error)
 
@@ -3009,6 +3054,28 @@ func (r PatchNomikuiNomikuiidResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r PatchNomikuiNomikuiidResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type GetPingResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *string
+}
+
+// Status returns HTTPResponse.Status
+func (r GetPingResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r GetPingResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -3653,6 +3720,15 @@ func (c *ClientWithResponses) PatchNomikuiNomikuiidWithResponse(ctx context.Cont
 		return nil, err
 	}
 	return ParsePatchNomikuiNomikuiidResponse(rsp)
+}
+
+// GetPingWithResponse request returning *GetPingResponse
+func (c *ClientWithResponses) GetPingWithResponse(ctx context.Context, reqEditors ...RequestEditorFn) (*GetPingResponse, error) {
+	rsp, err := c.GetPing(ctx, reqEditors...)
+	if err != nil {
+		return nil, err
+	}
+	return ParseGetPingResponse(rsp)
 }
 
 // GetRestaurantsWithResponse request returning *GetRestaurantsResponse
@@ -4385,6 +4461,32 @@ func ParsePatchNomikuiNomikuiidResponse(rsp *http.Response) (*PatchNomikuiNomiku
 	return response, nil
 }
 
+// ParseGetPingResponse parses an HTTP response from a GetPingWithResponse call
+func ParseGetPingResponse(rsp *http.Response) (*GetPingResponse, error) {
+	bodyBytes, err := io.ReadAll(rsp.Body)
+	defer func() { _ = rsp.Body.Close() }()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &GetPingResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest string
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	}
+
+	return response, nil
+}
+
 // ParseGetRestaurantsResponse parses an HTTP response from a GetRestaurantsWithResponse call
 func ParseGetRestaurantsResponse(rsp *http.Response) (*GetRestaurantsResponse, error) {
 	bodyBytes, err := io.ReadAll(rsp.Body)
@@ -4915,6 +5017,9 @@ type ServerInterface interface {
 	// 指定nomikui情報編集
 	// (PATCH /nomikui/{nomikuiid})
 	PatchNomikuiNomikuiid(ctx echo.Context, nomikuiid openapi_types.UUID) error
+	// pong
+	// (GET /ping)
+	GetPing(ctx echo.Context) error
 	// 全登録店の取得
 	// (GET /restaurants)
 	GetRestaurants(ctx echo.Context) error
@@ -5240,6 +5345,15 @@ func (w *ServerInterfaceWrapper) PatchNomikuiNomikuiid(ctx echo.Context) error {
 	return err
 }
 
+// GetPing converts echo context to params.
+func (w *ServerInterfaceWrapper) GetPing(ctx echo.Context) error {
+	var err error
+
+	// Invoke the callback with all the unmarshaled arguments
+	err = w.Handler.GetPing(ctx)
+	return err
+}
+
 // GetRestaurants converts echo context to params.
 func (w *ServerInterfaceWrapper) GetRestaurants(ctx echo.Context) error {
 	var err error
@@ -5552,6 +5666,7 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 	router.DELETE(baseURL+"/nomikui/:nomikuiid", wrapper.DeleteNomikuiNomikuiid)
 	router.GET(baseURL+"/nomikui/:nomikuiid", wrapper.GetNomikuiNomikuiid)
 	router.PATCH(baseURL+"/nomikui/:nomikuiid", wrapper.PatchNomikuiNomikuiid)
+	router.GET(baseURL+"/ping", wrapper.GetPing)
 	router.GET(baseURL+"/restaurants", wrapper.GetRestaurants)
 	router.POST(baseURL+"/restaurants", wrapper.PostRestaurants)
 	router.DELETE(baseURL+"/restaurants/:restaurantid", wrapper.DeleteRestaurantsRestaurantid)
@@ -5576,44 +5691,44 @@ func RegisterHandlersWithBaseURL(router EchoRouter, si ServerInterface, baseURL 
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"AAAA//9519TyS1oAAA==",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

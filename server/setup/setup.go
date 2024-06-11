@@ -2,11 +2,17 @@ package setup
 
 import (
 	"log"
+	"net/http"
 	"os"
 	"time"
 
 	"github.com/go-sql-driver/mysql"
 	"github.com/jmoiron/sqlx"
+	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
+	echomiddleware "github.com/oapi-codegen/echo-middleware"
+
+	oapi "nomikuimatch/generated"
 )
 
 func DBsetup() *sqlx.DB {
@@ -97,4 +103,27 @@ func DBsetup() *sqlx.DB {
 
 	return _db
 
+}
+
+type ping struct{}
+
+func (p *ping) GetPing(ctx echo.Context) error {
+	return ctx.String(http.StatusOK, "pong")
+}
+
+func Echosetup() {
+	e := echo.New()
+
+	swagger, err := oapi.GetSwagger()
+	if err != nil {
+		panic(err)
+	}
+	e.Use(echomiddleware.OapiRequestValidator(swagger))
+
+	e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
+
+	oapi.RegisterHandlers(e, &ping{})
+
+	e.Logger.Fatal(e.Start(":8080"))
 }

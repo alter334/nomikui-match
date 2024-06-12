@@ -1163,7 +1163,7 @@ components:
         id:
           type: string
           format: uuid
-        genrename:
+        areaname:
           type: string
           example: "エリア名"
       required:

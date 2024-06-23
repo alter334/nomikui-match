@@ -2,12 +2,14 @@ package main
 
 import (
 	"log"
-	"nomikuimatch/pkg/setup"
+	setup "nomikuimatch/pkg/_setup"
 )
 
 func main() {
 	_ = setup.DBsetup()
-	log.Println(":::Nomikui-backend Setuped:::")
+	log.Println(":::Nomikui-DB Setuped:::")
 	setup.Echosetup()
+	log.Println(":::Nomikui-Echo Setuped:::")
+	log.Println(":::Nomikui-Backend Setuped:::")
 
 }

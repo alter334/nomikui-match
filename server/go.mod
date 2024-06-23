@@ -5,7 +5,6 @@ go 1.20
 require (
 	github.com/getkin/kin-openapi v0.124.0
 	github.com/go-sql-driver/mysql v1.8.1
-	github.com/gofrs/uuid v4.4.0+incompatible
 	github.com/google/uuid v1.5.0
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/labstack/echo/v4 v4.12.0

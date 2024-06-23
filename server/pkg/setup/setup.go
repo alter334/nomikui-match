@@ -13,6 +13,8 @@ import (
 	echomiddleware "github.com/oapi-codegen/echo-middleware"
 
 	oapi "nomikuimatch/generated"
+	area "nomikuimatch/pkg/area"
+	genre "nomikuimatch/pkg/genre"
 )
 
 func DBsetup() *sqlx.DB {
@@ -105,9 +107,12 @@ func DBsetup() *sqlx.DB {
 
 }
 
-type ping struct{}
+type OapiService struct {
+	a *area.Areaservice
+	g *genre.Genreservice
+}
 
-func (p *ping) GetPing(ctx echo.Context) error {
+func (s *OapiService) GetPing(ctx echo.Context) error {
 	return ctx.String(http.StatusOK, "pong")
 }
 
@@ -123,7 +128,7 @@ func Echosetup() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	oapi.RegisterHandlers(e, &ping{})
+	oapi.RegisterHandlers(e, &OapiService{})
 
 	e.Logger.Fatal(e.Start(":8080"))
 }

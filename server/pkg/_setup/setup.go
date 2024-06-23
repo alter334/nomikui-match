@@ -108,8 +108,8 @@ func DBsetup() *sqlx.DB {
 }
 
 type OapiService struct {
-	a *area.Areaservice
-	g *genre.Genreservice
+	a *area.AreaService
+	g *genre.GenreService
 }
 
 func (s *OapiService) GetPing(ctx echo.Context) error {

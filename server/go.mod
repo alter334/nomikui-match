@@ -5,13 +5,17 @@ go 1.20
 require (
 	github.com/getkin/kin-openapi v0.124.0
 	github.com/go-sql-driver/mysql v1.8.1
+	github.com/gofrs/uuid v4.4.0+incompatible
+	github.com/google/uuid v1.5.0
 	github.com/jmoiron/sqlx v1.4.0
 	github.com/labstack/echo/v4 v4.12.0
 	github.com/oapi-codegen/echo-middleware v1.0.2
+	github.com/oapi-codegen/runtime v1.1.1
 )
 
 require (
 	filippo.io/edwards25519 v1.1.0 // indirect
+	github.com/apapsch/go-jsonmerge/v2 v2.0.0 // indirect
 	github.com/go-openapi/jsonpointer v0.20.2 // indirect
 	github.com/go-openapi/swag v0.22.8 // indirect
 	github.com/golang-jwt/jwt v3.2.2+incompatible // indirect

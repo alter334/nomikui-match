@@ -643,7 +643,7 @@ paths:
     get:
       tags:
         - genres
-      summary: 全タグの取得
+      summary: 全ジャンルの取得
       responses:
         "200": # status code
           description: A JSON array of genre objects
@@ -662,7 +662,7 @@ paths:
     post:
       tags:
         - genres
-      summary: 新規タグ登録
+      summary: 新規ジャンル登録
       requestBody:
         required: true
         content:
@@ -775,7 +775,7 @@ paths:
     get:
       tags:
         - areas
-      summary: 全タグの取得
+      summary: 全エリアの取得
       responses:
         "200": # status code
           description: A JSON array of area objects
@@ -794,7 +794,7 @@ paths:
     post:
       tags:
         - areas
-      summary: 新規タグ登録
+      summary: 新規エリア登録
       requestBody:
         required: true
         content:
@@ -907,7 +907,7 @@ paths:
     get:
       tags:
         - entries
-      summary: 全タグの取得
+      summary: 全エントリの取得
       responses:
         "200": # status code
           description: A JSON array of entries objects
@@ -926,7 +926,7 @@ paths:
     post:
       tags:
         - entries
-      summary: 新規タグ登録
+      summary: 新規エントリ登録
       requestBody:
         required: true
         content:

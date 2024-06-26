@@ -2,7 +2,7 @@ package main
 
 import (
 	"log"
-	setup "nomikuimatch/pkg/_setup"
+	setup "nomikuimatch/setup"
 )
 
 func main() {

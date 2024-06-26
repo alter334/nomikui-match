@@ -29,7 +29,11 @@ func (s *OapiService) PostAreas(ctx echo.Context) error {
 }
 
 func (s *OapiService) GetAreasAreaid(ctx echo.Context, areaid uuid.UUID) error {
-	return nil
+	res, err := s.a.GetAreasAreaid(areaid)
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(http.StatusOK, res)
 }
 
 func (s *OapiService) PatchAreasAreaid(ctx echo.Context, areaid uuid.UUID) error {
@@ -37,5 +41,9 @@ func (s *OapiService) PatchAreasAreaid(ctx echo.Context, areaid uuid.UUID) error
 }
 
 func (s *OapiService) DeleteAreasAreaid(ctx echo.Context, areaid uuid.UUID) error {
-	return nil
+	res, err := s.a.DeleteAreasAreaid(areaid)
+	if err != nil {
+		return err
+	}
+	return ctx.JSON(http.StatusOK, res)
 }

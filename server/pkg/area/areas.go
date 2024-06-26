@@ -9,20 +9,27 @@ import (
 	"github.com/labstack/echo/v4"
 )
 
-func (a *AreaService) GetAreas() (res []oapi.Area, err error) {
-	err = a.db.Select(&res, "SELECT * FROM `area`")
+func (a *AreaService) GetAreas() (res []Area, err error) {
+	err = a.db.Select(&res, "SELECT * FROM `Area`")
 	if err != nil {
 		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("%+v", err))
 	}
 	return res, nil
 }
 
-func (a *AreaService) PostAreas(req *oapi.PostAreasJSONRequestBody) (res *oapi.Area, err error) {
+func (a *AreaService) PostAreas(req *oapi.PostAreasJSONRequestBody) (res *Area, err error) {
+
 	uuid := uuid.New()
 	req.Id = &uuid
-	_, err = a.db.Exec("INSERT INTO `area` VALUES(?,?)", *req.Id, req.Areaname)
+
+	_, err = a.db.Exec("INSERT INTO `Area` VALUES(?,?)", *req.Id, req.Areaname)
 	if err != nil {
 		return nil, echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("%+v", err))
 	}
-	return req, nil
+
+	var tres = Area{Id: uuid, Areaname: req.Areaname}
+
+	res = &tres
+
+	return res, nil
 }

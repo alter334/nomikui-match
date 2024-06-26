@@ -2,17 +2,16 @@ package area
 
 import (
 	"github.com/google/uuid"
-	"github.com/labstack/echo/v4"
 )
 
-func (s *Areaservice) GetAreasAreaid(ctx echo.Context, areaid string) error {
+func (s *AreaService) GetAreasAreaid(areaid uuid.UUID) error {
 	return nil
 }
 
-func (s *Areaservice) PatchAreasAreaid(ctx echo.Context, areaid string) error {
+func (s *AreaService) PatchAreasAreaid(areaid uuid.UUID) error {
 	return nil
 }
 
-func (s *Areaservice) DeleteAreasAreaid(ctx echo.Context, areaid uuid.UUID) error {
+func (s *AreaService) DeleteAreasAreaid(areaid uuid.UUID) error {
 	return nil
 }

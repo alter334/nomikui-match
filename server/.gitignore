@@ -3,3 +3,5 @@
 /data 
 # テストデータ
 /init/test.sql 
+
+.DS_Store

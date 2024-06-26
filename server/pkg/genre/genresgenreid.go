@@ -1,17 +1,15 @@
 package genre
 
-import (
-	"github.com/labstack/echo/v4"
-)
+import "github.com/google/uuid"
 
-func (s *Genreservice) GetGenresGenreid(ctx echo.Context) error {
+func (s *GenreService) GetGenresGenreid(genreid uuid.UUID) error {
 	return nil
 }
 
-func (s *Genreservice) PatchGenresGenreid(ctx echo.Context) error {
+func (s *GenreService) PatchGenresGenreid(genreid uuid.UUID) error {
 	return nil
 }
 
-func (s *Genreservice) DeleteGenresGenreid(ctx echo.Context) error {
+func (s *GenreService) DeleteGenresGenreid(genreid uuid.UUID) error {
 	return nil
 }

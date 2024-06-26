@@ -48,7 +48,7 @@ func DBsetup() *sqlx.DB {
 		addr = host + ":" + port
 		dbname, def = os.LookupEnv("NS_MARIADB_DATABASE")
 		if !def {
-			dbname = "nomikui"
+			dbname = "nomikuimatch"
 		}
 	} else {
 		user, def = os.LookupEnv("LOCAL_MYSQL_USER")

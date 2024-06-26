@@ -1,7 +1,11 @@
 package area
 
-type AreaService struct{}
+import "github.com/jmoiron/sqlx"
 
-func NewAreaService() *AreaService {
-	return &AreaService{}
+type AreaService struct {
+	db *sqlx.DB
+}
+
+func NewAreaService(_db *sqlx.DB) *AreaService {
+	return &AreaService{db: _db}
 }

@@ -1068,7 +1068,6 @@ components:
           type: string
           example: alt--er
       required:
-        - id
         - name
     Restaurant:
       type: object
@@ -1095,10 +1094,7 @@ components:
           type: string
           example: "麻婆豆腐の美味しいドカ食い向けの店"
       required:
-        - id
         - name
-        - areaid
-        - genreid
         - registered_at
     Nomikui:
       type: object
@@ -1124,7 +1120,6 @@ components:
           type: string
           example: "プロジェクトnomikui会"
       required:
-        - id
         - restaurantid
         - organizerid
         - conducted_at
@@ -1142,7 +1137,6 @@ components:
           type: string
           example: "タグ名"
       required:
-        - id
         - restaurantid
         - content
     Genre:
@@ -1155,7 +1149,6 @@ components:
           type: string
           example: "ジャンル名"
       required:
-        - id
         - genrename
     Area:
       type: object
@@ -1167,7 +1160,6 @@ components:
           type: string
           example: "エリア名"
       required:
-        - id
         - areaname
     Entry:
       type: object

@@ -14,7 +14,6 @@ import (
 
 	oapi "nomikuimatch/generated"
 	area "nomikuimatch/pkg/area"
-	genre "nomikuimatch/pkg/genre"
 )
 
 func DBsetup() *sqlx.DB {
@@ -71,7 +70,7 @@ func DBsetup() *sqlx.DB {
 
 		dbname, def = os.LookupEnv("LOCAL_MYSQL_DATABASE")
 		if !def {
-			dbname = "nomikui"
+			dbname = "nomikuimatch"
 		}
 	}
 
@@ -109,14 +108,13 @@ func DBsetup() *sqlx.DB {
 
 type OapiService struct {
 	a *area.AreaService
-	g *genre.GenreService
 }
 
 func (s *OapiService) GetPing(ctx echo.Context) error {
 	return ctx.String(http.StatusOK, "pong")
 }
 
-func Echosetup() {
+func Echosetup(_db *sqlx.DB) {
 	e := echo.New()
 
 	swagger, err := oapi.GetSwagger()
@@ -128,7 +126,15 @@ func Echosetup() {
 	e.Use(middleware.Logger())
 	e.Use(middleware.Recover())
 
-	oapi.RegisterHandlers(e, &OapiService{})
+	service := servicesetup(_db)
+
+	oapi.RegisterHandlers(e, service)
 
 	e.Logger.Fatal(e.Start(":8080"))
+}
+
+func servicesetup(_db *sqlx.DB) *OapiService {
+	a := area.NewAreaService(_db)
+
+	return &OapiService{a: a}
 }

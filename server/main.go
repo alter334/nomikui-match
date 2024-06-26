@@ -6,9 +6,9 @@ import (
 )
 
 func main() {
-	_ = setup.DBsetup()
+	_db := setup.DBsetup()
 	log.Println(":::Nomikui-DB Setuped:::")
-	setup.Echosetup()
+	setup.Echosetup(_db)
 	log.Println(":::Nomikui-Echo Setuped:::")
 	log.Println(":::Nomikui-Backend Setuped:::")
 
